@@ -1,0 +1,9 @@
+{
+    "name": "twitch",
+    "displayName": "Twitch Something",
+    "description": "Twitch channel",
+    "examples": ["twitch gronkh", "twitch theemero"],
+    "categories": ["Utilities"],
+    "creator_name": "Arman Vartan",
+    "creator_url": "https://google.de"
+}
