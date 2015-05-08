@@ -1,43 +1,68 @@
+def get_response_for(host, path, secure):
+	import httplib
+
+	conn = httplib.HTTPSConnection(host) if secure else httplib.HTTPConnection(host)
+	conn.request('GET', path)
+	resp = conn.getresponse()
+	data = resp.read()
+	conn.close()
+
+	return data if resp.status is 200 else None
+
+def is_live(channelName):
+	import json
+
+	host = 'api.twitch.tv'
+	path = '/kraken/streams/{channelName}'.format(channelName=channelName)
+	resp = get_response_for(host, path, True)
+
+	if resp is None:
+		return False
+
+	return json.loads(resp)['stream'] is not None
+
 def get_signature_and_token(channelName):
 	import json
-	import httplib
 	
-	conn = httplib.HTTPConnection('api.twitch.tv')
-	conn.request('GET', '/api/channels/{channelName}/access_token'.format(channelName=channelName))
-	resp = conn.getresponse()
+	host = 'api.twitch.tv'
+	path = '/api/channels/{channelName}/access_token'.format(channelName=channelName)
+	resp = get_response_for(host, path, False)
 
-	if not resp.status is 200:
+	if resp is None:
 		return None, None
 
-	tokenJson = json.load(resp)
-	conn.close()
+	tokenJson = json.loads(resp)
 	return tokenJson['sig'], tokenJson['token']
 
-def check_if_live(channelName, sig, token):
-	import httplib
+def get_playlist(channelName):
+	sig, token = get_signature_and_token(channelName)
 
-	channelHost = 'usher.twitch.tv'
-	channelPath = '/api/channel/hls/{channelName}.m3u8?sig={sig}&token={token}'.format(channelName=channelName, sig=sig, token=token)
+	if sig is None and token is None:
+		return
 
-	channelUrl = 'http://' + channelHost + channelPath
+	host = 'usher.twitch.tv'
+	path = '/api/channel/hls/{channelName}.m3u8?sig={sig}&token={token}'.format(channelName=channelName, sig=sig, token=token)
 
-	return {
-		"title": "Open Twitch channel of {0}".format(channelName),
-		"run_args": [channelUrl]
-	}
+	url = 'http://' + host + path
+
+	return url
 
 def results(fields, original_query):
 	if not '~channel' in fields:
 		return
 
 	channelName = fields['~channel']
-	
-	sig, token = get_signature_and_token(channelName)
-
-	if sig is None and token is None:
+	if not is_live(channelName):
 		return
 
-	return check_if_live(channelName, sig, token)
+	channelUrl = get_playlist(channelName)
+	if not channelUrl:
+		return
+
+	return {
+		"title": "Open Twitch channel of {0}".format(channelName),
+		"run_args": [channelUrl]
+	}
 
 def run(channelUrl):
 	from subprocess import call
