@@ -1,9 +1,9 @@
 {
     "name": "twitch",
-    "displayName": "Twitch Something",
-    "description": "Twitch channel",
+    "displayName": "Twitch.tv",
+    "description": "Opens the Twitch channel of the streamer",
     "examples": ["twitch gronkh", "twitch theemero"],
-    "categories": ["Utilities"],
+    "categories": ["Media"],
     "creator_name": "Arman Vartan",
-    "creator_url": "https://google.de"
+    "creator_url": "https://github.com/Gumbagubanga/Flashlight-Twitch-Plugin"
 }
