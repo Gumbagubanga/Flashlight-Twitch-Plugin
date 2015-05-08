@@ -20,7 +20,6 @@ def results(fields, original_query):
 def run(channelUrl):
 	from subprocess import call
 	
-	supportedPlayers = { "VLC": "/Applications/VLC.app", "QT": "/Applications/QuickTime Player.app" }
-	application = supportedPlayers["QT"]
+	application = "/Applications/QuickTime Player.app"
 
 	call(["open", "-a", application, channelUrl])
