@@ -5,7 +5,9 @@ def results(fields, original_query):
 		return
 
 	channelName = fields['~channel']
-	if not twitch.is_live(channelName):
+	streamInfo = twitch.get_stream_info(channelName)
+
+	if streamInfo is None:
 		return
 
 	return {

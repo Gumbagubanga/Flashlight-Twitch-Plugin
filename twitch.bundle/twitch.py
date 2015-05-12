@@ -9,7 +9,7 @@ def get_response_for(host, path, secure):
 
 	return data if resp.status is 200 else None
 
-def is_live(channelName):
+def get_stream_info(channelName):
 	import json
 
 	host = 'api.twitch.tv'
@@ -17,9 +17,9 @@ def is_live(channelName):
 	resp = get_response_for(host, path, True)
 
 	if resp is None:
-		return False
+		return None
 
-	return json.loads(resp)['stream'] is not None
+	return json.loads(resp)['stream']
 
 def get_signature_and_token(channelName):
 	import json
