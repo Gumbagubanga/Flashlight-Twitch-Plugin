@@ -10,8 +10,10 @@ def results(fields, original_query):
 	if streamInfo is None:
 		return
 
+	displayName = streamInfo['channel']['display_name']
+
 	return {
-		"title": "Open Twitch channel of {0}".format(channelName),
+		"title": "Open Twitch channel of {0}".format(displayName),
 		"run_args": [channelName]
 	}
 
