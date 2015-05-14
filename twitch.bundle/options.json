@@ -1,8 +1,8 @@
 {
   "options": [
     {
-      "text": "Following:",
-      "key": "following",
+      "text": "User:",
+      "key": "user",
       "type": "text"
     },
     {
