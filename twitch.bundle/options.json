@@ -1,0 +1,14 @@
+{
+  "options": [
+    {
+      "text": "Following:",
+      "key": "following",
+      "type": "text"
+    },
+    {
+      "text": "Video player:",
+      "key": "application",
+      "type": "text"
+    }
+  ]
+}

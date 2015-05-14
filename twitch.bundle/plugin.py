@@ -1,4 +1,5 @@
 import twitch
+import json
 
 def prepareHtml(streamInfo):
 	displayName = streamInfo['channel']['display_name']
@@ -39,6 +40,7 @@ def run(channelName):
 	if not channelUrl:
 		return
 	
-	application = "/Applications/QuickTime Player.app"
+	settings = json.load(open('preferences.json'))
+	application = settings['application']
 
 	call(["open", "-a", application, channelUrl])
