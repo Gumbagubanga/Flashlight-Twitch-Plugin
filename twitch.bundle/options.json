@@ -9,6 +9,11 @@
       "text": "Video player:",
       "key": "application",
       "type": "text"
+    },
+    {
+      "text": "Open channel in browser",
+      "key": "inBrowser",
+      "type": "checkmark"
     }
   ]
 }

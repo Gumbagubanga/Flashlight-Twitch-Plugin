@@ -36,11 +36,17 @@ def results(fields, original_query):
 def run(channelName):
 	from subprocess import call
 	
+	settings = json.load(open('preferences.json'))
+	inBrowser = settings['inBrowser']
+
+	if inBrowser:
+		twitchUrl = "http://twitch.tv/{channelName}/".format(channelName=channelName)
+		call(["open", twitchUrl])	
+		return
+
 	channelUrl = twitch.get_playlist(channelName)
 	if not channelUrl:
 		return
 	
-	settings = json.load(open('preferences.json'))
 	application = settings['application']
-
 	call(["open", "-a", application, channelUrl])
