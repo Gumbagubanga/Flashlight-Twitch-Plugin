@@ -1,8 +1,9 @@
 import json
 
-def get_response_for(host, path, secure):
+def get_response_for(path, secure):
 	import httplib
 
+	host = 'api.twitch.tv'
 	conn = httplib.HTTPSConnection(host) if secure else httplib.HTTPConnection(host)
 	conn.request('GET', path)
 	resp = conn.getresponse()
@@ -12,19 +13,17 @@ def get_response_for(host, path, secure):
 	return data if resp.status is 200 else None
 
 def get_stream_info(channelName):
-	host = 'api.twitch.tv'
 	path = '/kraken/streams/{channelName}'.format(channelName=channelName)
-	resp = get_response_for(host, path, True)
+	resp = get_response_for(path, True)
 
 	if resp is None:
 		return None
 
 	return json.loads(resp)['stream']
 
-def get_signature_and_token(channelName):	
-	host = 'api.twitch.tv'
+def get_signature_and_token(channelName):
 	path = '/api/channels/{channelName}/access_token'.format(channelName=channelName)
-	resp = get_response_for(host, path, False)
+	resp = get_response_for(path, False)
 
 	if resp is None:
 		return None, None
